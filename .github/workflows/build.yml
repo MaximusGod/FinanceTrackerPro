@@ -1,0 +1,78 @@
+name: Build Executables
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: FinanceTracker-Linux
+            asset_name: FinanceTracker-Linux
+          - os: windows-latest
+            artifact_name: FinanceTracker-Windows.exe
+            asset_name: FinanceTracker-Windows.exe
+          - os: macos-latest
+            artifact_name: FinanceTracker-macOS
+            asset_name: FinanceTracker-macOS
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+
+      - name: Build with PyInstaller
+        shell: bash
+        run: |
+          pyinstaller --noconfirm main.spec
+
+      - name: Prepare binary name
+        shell: bash
+        run: |
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            mv dist/FinanceTracker.exe dist/FinanceTracker-Windows.exe || true
+          elif [ "${{ runner.os }}" = "Linux" ]; then
+            mv dist/FinanceTracker dist/FinanceTracker-Linux || true
+          elif [ "${{ runner.os }}" = "macOS" ]; then
+            if [ -d "dist/FinanceTracker.app" ]; then
+              cd dist && zip -r FinanceTracker-macOS.zip FinanceTracker.app && rm -rf FinanceTracker.app && cd ..
+            else
+              mv dist/FinanceTracker dist/FinanceTracker-macOS || true
+            fi
+          fi
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset_name }}
+          path: dist/*
+
+      - name: Release to GitHub Releases
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
