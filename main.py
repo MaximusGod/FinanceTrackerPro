@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from functools import lru_cache
 import os
@@ -47,25 +46,25 @@ ctk.set_default_color_theme("blue")
 # DIZIONARIO DI TRADUZIONE MULTILINGUA
 TRANSLATIONS = {
     "IT": {
-        "year_label": "📅 Anno:",
+        "year_label": "Anno:",
         "all_years": "Tutti",
-        "export_btn": "📦 Salva File",
-        "balance_card": "💳  SALDO ANNO",
+        "export_btn": "Salva File",
+        "balance_card": "SALDO ANNO",
         "income_card": "▲  ENTRATE TOTALI",
         "expense_card": "▼  USCITE TOTALI",
-        "new_trans_title": "✨ Nuovo Movimento",
+        "new_trans_title": "Nuovo Movimento",
         "expense_tab": "Uscita",
         "income_tab": "Entrata",
         "amount_lbl": "Importo (€)",
         "category_lbl": "Categoria",
         "date_lbl": "Data (YYYY-MM-DD)",
         "desc_lbl": "Descrizione / Note (opzionale)",
-        "add_btn": "➕ Aggiungi Movimento",
+        "add_btn": "Aggiungi Movimento",
         "feed_title": "Movimenti",
         "filter_all": "Tutti",
         "filter_expenses": "Uscite",
         "filter_incomes": "Entrate",
-        "charts_title": "📊  Analisi Finanziaria in Tempo Reale",
+        "charts_title": "Analisi Finanziaria in Tempo Reale",
         "live_lbl": "● LIVE",
         "no_data": "Nessuna transazione registrata.",
         "load_more": "Carica altri movimenti ({n} rimanenti)...",
@@ -82,25 +81,25 @@ TRANSLATIONS = {
         "err_date_range": "L'anno della data deve essere compreso tra 1900 e 2100.",
     },
     "EN": {
-        "year_label": "📅 Year:",
+        "year_label": "Year:",
         "all_years": "All",
-        "export_btn": "📦 Save File",
-        "balance_card": "💳  YEAR BALANCE",
+        "export_btn": "Save File",
+        "balance_card": "YEAR BALANCE",
         "income_card": "▲  TOTAL INCOME",
         "expense_card": "▼  TOTAL EXPENSES",
-        "new_trans_title": "✨ New Transaction",
+        "new_trans_title": "New Transaction",
         "expense_tab": "Expense",
         "income_tab": "Income",
         "amount_lbl": "Amount (€)",
         "category_lbl": "Category",
         "date_lbl": "Date (YYYY-MM-DD)",
         "desc_lbl": "Description / Notes (optional)",
-        "add_btn": "➕ Add Transaction",
+        "add_btn": "Add Transaction",
         "feed_title": "Transactions",
         "filter_all": "All",
         "filter_expenses": "Expenses",
         "filter_incomes": "Income",
-        "charts_title": "📊  Real-Time Financial Analysis",
+        "charts_title": "Real-Time Financial Analysis",
         "live_lbl": "● LIVE",
         "no_data": "No transactions recorded.",
         "load_more": "Load more transactions ({n} remaining)...",
@@ -120,41 +119,41 @@ TRANSLATIONS = {
 
 CATEGORIE_SUGGERITE = {
     "IT": [
-        "🛒 Spesa",
-        "💼 Stipendio",
-        "🍽️ Ristoranti & Bar",
-        "🚗 Trasporti",
-        "🏠 Casa & Affitto",
-        "💡 Utenze & Bollette",
-        "🎬 Svago & Tempo Libero",
-        "💊 Salute & Benessere",
-        "🛍️ Shopping",
-        "🎁 Altro",
+        "Spesa",
+        "Stipendio",
+        "Ristoranti & Bar",
+        "Trasporti",
+        "Casa & Affitto",
+        "Utenze & Bollette",
+        "Svago & Tempo Libero",
+        "Salute & Benessere",
+        "Shopping",
+        "Altro",
     ],
     "EN": [
-        "🛒 Groceries",
-        "💼 Salary",
-        "🍽️ Restaurants & Bars",
-        "🚗 Transport",
-        "🏠 Housing & Rent",
-        "💡 Utilities & Bills",
-        "🎬 Leisure & Entertainment",
-        "💊 Health & Wellbeing",
-        "🛍️ Shopping",
-        "🎁 Other",
+        "Groceries",
+        "Salary",
+        "Restaurants & Bars",
+        "Transport",
+        "Housing & Rent",
+        "Utilities & Bills",
+        "Leisure & Entertainment",
+        "Health & Wellbeing",
+        "Shopping",
+        "Other",
     ],
 }
 
 ICON_KEYWORDS = [
-    (("spesa", "supermercato", "alimentar", "grocer"), "🛒"),
-    (("stipendio", "lavoro", "fattura", "bonifico", "salary", "wage"), "💼"),
-    (("ristorant", "bar", "pizza", "cena", "pranzo", "caff", "dining", "restaurant"), "🍽️"),
-    (("trasport", "benzina", "carburante", "auto", "treno", "bus", "transport"), "🚗"),
-    (("casa", "affitto", "mutuo", "rent", "house", "housing"), "🏠"),
-    (("bollett", "luce", "gas", "internet", "utenze", "bills", "utilities"), "💡"),
-    (("svago", "cinema", "hobby", "vacanz", "gioco", "entertainment", "leisure"), "🎬"),
-    (("salute", "farmacia", "medico", "visita", "health", "wellbeing"), "💊"),
-    (("shopping", "abbigliamento", "vestit", "clothes"), "🛍️"),
+    (("spesa", "supermercato", "alimentar", "grocer"), ""),
+    (("stipendio", "lavoro", "fattura", "bonifico", "salary", "wage"), ""),
+    (("ristorant", "bar", "pizza", "cena", "pranzo", "caff", "dining", "restaurant"), ""),
+    (("trasport", "benzina", "carburante", "auto", "treno", "bus", "transport"), ""),
+    (("casa", "affitto", "mutuo", "rent", "house", "housing"), ""),
+    (("bollett", "luce", "gas", "internet", "utenze", "bills", "utilities"), ""),
+    (("svago", "cinema", "hobby", "vacanz", "gioco", "entertainment", "leisure"), ""),
+    (("salute", "farmacia", "medico", "visita", "health", "wellbeing"), ""),
+    (("shopping", "abbigliamento", "vestit", "clothes"), ""),
 ]
 
 
@@ -165,7 +164,7 @@ def ottieni_icona_categoria(categoria: str) -> str:
     for parole, icona in ICON_KEYWORDS:
         if any(p in cat for p in parole):
             return icona
-    return "📈" if ("entrata" in cat or "income" in cat or "guadagno" in cat) else "💳"
+    return "" if ("entrata" in cat or "income" in cat or "guadagno" in cat) else ""
 
 
 def find_asset(filename: str) -> Optional[Path]:
@@ -233,7 +232,7 @@ class MiaFinanza(ctk.CTk):
 
         ctk.CTkLabel(
             self.top_bar,
-            text="💸  Finance Tracker Pro",
+            text="Finance Tracker Pro",
             font=("Arial", 18, "bold"),
         ).pack(side="left")
 
@@ -243,13 +242,13 @@ class MiaFinanza(ctk.CTk):
         # Selettore Lingua
         self.scelta_lingua = ctk.CTkComboBox(
             self.box_anno_comandi,
-            values=["🇮🇹 IT", "🇬🇧 EN"],
+            values=["IT", "EN"],
             width=95,
             height=32,
             font=("Arial", 12, "bold"),
             command=self.cambia_lingua,
         )
-        self.scelta_lingua.set("🇮🇹 IT" if self.lang == "IT" else "🇬🇧 EN")
+        self.scelta_lingua.set("IT" if self.lang == "IT" else "EN")
         self.scelta_lingua.pack(side="left", padx=(0, 12))
 
         self.lbl_anno_txt = ctk.CTkLabel(
@@ -729,7 +728,6 @@ class MiaFinanza(ctk.CTk):
 
             if self._empty_frame is None:
                 self._empty_frame = ctk.CTkFrame(self.feed_scrollable, fg_color="transparent")
-                ctk.CTkLabel(self._empty_frame, text="🌱", font=("Arial", 30)).pack()
                 self._empty_label = ctk.CTkLabel(
                     self._empty_frame,
                     text=self.t("no_data"),
@@ -811,7 +809,7 @@ class MiaFinanza(ctk.CTk):
 
                 btn_elimina = ctk.CTkButton(
                     card,
-                    text="🗑",
+                    text="✕",
                     width=28,
                     height=28,
                     font=("Arial", 11),
