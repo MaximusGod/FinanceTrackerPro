@@ -1,0 +1,61 @@
+
+from pathlib import Path
+import sys
+
+SVG_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <!-- Sfumatura di sfondo -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a73e8"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+    <!-- Sfumatura barre -->
+    <linearGradient id="bar" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#4fc3f7"/>
+      <stop offset="100%" stop-color="#e3f2fd"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sfondo: rounded square stile app-icon -->
+  <rect x="16" y="16" width="480" height="480" rx="96" ry="96" fill="url(#bg)"/>
+
+  <!-- Grafico a barre (dati) -->
+  <rect x="140" y="280" width="48" height="100" rx="8" fill="url(#bar)" opacity="0.9"/>
+  <rect x="208" y="230" width="48" height="150" rx="8" fill="url(#bar)" opacity="0.9"/>
+  <rect x="276" y="190" width="48" height="190" rx="8" fill="url(#bar)" opacity="0.9"/>
+  <rect x="344" y="250" width="48" height="130" rx="8" fill="url(#bar)" opacity="0.9"/>
+
+  <!-- Asse X sottile -->
+  <line x1="130" y1="380" x2="404" y2="380" stroke="#e3f2fd" stroke-width="3" opacity="0.5"/>
+
+  <!-- Famiglia: 3 figure stilizzate sopra il grafico -->
+  <!-- Adulto 1 (sinistra) -->
+  <circle cx="200" cy="140" r="28" fill="#ffffff"/>
+  <ellipse cx="200" cy="195" rx="32" ry="24" fill="#ffffff"/>
+
+  <!-- Adulto 2 (destra) -->
+  <circle cx="312" cy="140" r="28" fill="#ffffff"/>
+  <ellipse cx="312" cy="195" rx="32" ry="24" fill="#ffffff"/>
+
+  <!-- Bimbo (centro, più in basso) -->
+  <circle cx="256" cy="160" r="20" fill="#bbdefb"/>
+  <ellipse cx="256" cy="205" rx="24" ry="18" fill="#bbdefb"/>
+
+  <!-- Leggera glow / ombra -->
+  <ellipse cx="256" cy="410" rx="160" ry="16" fill="#000" opacity="0.12"/>
+</svg>"""
+
+
+def genera_svg(output_path: Path = None) -> Path:
+    """Scrive il file SVG in modo sicuro e atomico con codifica UTF-8."""
+    if output_path is None:
+        output_path = Path(__file__).resolve().parent / "icon.svg"
+
+    output_path.write_text(SVG_CONTENT.strip() + "\n", encoding="utf-8")
+    return output_path
+
+
+if __name__ == "__main__":
+    dest = genera_svg()
+    print(f"icon.svg generato con successo: {dest} (512x512)")
