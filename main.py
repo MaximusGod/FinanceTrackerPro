@@ -7,7 +7,7 @@ import tempfile
 from tkinter import messagebox
 from typing import List, Optional, Tuple
 
-# Garantisce una directory di cache valida per Matplotlib su ogni OS
+
 if "MPLCONFIGDIR" not in os.environ:
     _temp_mpl = os.path.join(tempfile.gettempdir(), "matplotlib_financetracker")
     try:
@@ -16,7 +16,7 @@ if "MPLCONFIGDIR" not in os.environ:
     except Exception:
         pass
 
-# Su Windows associa il processo a un AppID esplicito per la barra delle applicazioni
+
 if sys.platform.startswith("win"):
     try:
         import ctypes
@@ -43,7 +43,7 @@ from tracker import disegna_grafici_in_tempo_reale
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 
-# DIZIONARIO DI TRADUZIONE MULTILINGUA
+
 TRANSLATIONS = {
     "IT": {
         "year_label": "Anno:",
@@ -190,7 +190,7 @@ class MiaFinanza(ctk.CTk):
 
         init_db()
 
-        # Configurazione icona cross-platform (Windows, Linux, macOS)
+        
         try:
             ico_path = find_asset("icon.ico")
             png_path = find_asset("icon.png")
@@ -208,7 +208,6 @@ class MiaFinanza(ctk.CTk):
         except Exception:
             pass
 
-        # Carica la lingua salvata o default "IT"
         self.lang = get_setting("language", "IT")
 
         self.title("Finance Tracker Pro")
@@ -220,13 +219,13 @@ class MiaFinanza(ctk.CTk):
         self.filtro_corrente = "Tutti"
         self.limite_visibili = 50
 
-        # Strutture per widget pooling (rendering istantaneo del feed senza distruzioni continue)
+      
         self._card_pool: List[dict] = []
         self._empty_frame: Optional[ctk.CTkFrame] = None
         self._btn_mostra_altri: Optional[ctk.CTkButton] = None
         self._last_years_list: Optional[List[str]] = None
 
-        # --- 1. BARRA SUPERIORE ---
+      
         self.top_bar = ctk.CTkFrame(self, fg_color="transparent")
         self.top_bar.pack(fill="x", padx=25, pady=(15, 5))
 
@@ -239,7 +238,7 @@ class MiaFinanza(ctk.CTk):
         self.box_anno_comandi = ctk.CTkFrame(self.top_bar, fg_color="transparent")
         self.box_anno_comandi.pack(side="right")
 
-        # Selettore Lingua
+    
         self.scelta_lingua = ctk.CTkComboBox(
             self.box_anno_comandi,
             values=["IT", "EN"],
@@ -282,12 +281,12 @@ class MiaFinanza(ctk.CTk):
         )
         self.btn_esporta_archivio.pack(side="left")
 
-        # --- 2. KPI CARDS ---
+       
         self.kpi_container = ctk.CTkFrame(self, fg_color="transparent")
         self.kpi_container.pack(fill="x", padx=25, pady=(5, 8))
         self.kpi_container.grid_columnconfigure((0, 1, 2), weight=1, uniform="kpi")
 
-        # Card 1: Saldo
+        
         self.card_saldo = ctk.CTkFrame(
             self.kpi_container, corner_radius=12, fg_color=("#2b2d35", "#1f222a")
         )
@@ -309,7 +308,7 @@ class MiaFinanza(ctk.CTk):
         )
         self.lbl_valore_saldo.pack(anchor="w", padx=16, pady=(0, 12))
 
-        # Card 2: Entrate
+      
         self.card_entrate = ctk.CTkFrame(
             self.kpi_container, corner_radius=12, fg_color=("#2b2d35", "#1f222a")
         )
@@ -331,7 +330,7 @@ class MiaFinanza(ctk.CTk):
         )
         self.lbl_valore_entrate.pack(anchor="w", padx=16, pady=(0, 12))
 
-        # Card 3: Uscite
+       
         self.card_uscite = ctk.CTkFrame(
             self.kpi_container, corner_radius=12, fg_color=("#2b2d35", "#1f222a")
         )
@@ -353,11 +352,10 @@ class MiaFinanza(ctk.CTk):
         )
         self.lbl_valore_uscite.pack(anchor="w", padx=16, pady=(0, 12))
 
-        # --- 3. ZONA CENTRALE ---
+  
         self.blocco_principale = ctk.CTkFrame(self, fg_color="transparent")
         self.blocco_principale.pack(fill="both", expand=True, padx=25, pady=(5, 8))
 
-        # FORM (SX)
         self.colonna_sx = ctk.CTkFrame(
             self.blocco_principale,
             width=350,
@@ -439,12 +437,12 @@ class MiaFinanza(ctk.CTk):
         )
         self.btn_salva.pack(fill="x", padx=18, pady=(0, 12))
 
-        # Scorciatoia rapida da tastiera: Invio salva il movimento da qualsiasi campo
+       
         self.campo_quanto.bind("<Return>", lambda _e: self.aggiungi_transazione())
         self.campo_quando.bind("<Return>", lambda _e: self.aggiungi_transazione())
         self.campo_note.bind("<Return>", lambda _e: self.aggiungi_transazione())
 
-        # FEED TRANSAZIONI (DX)
+      
         self.colonna_dx = ctk.CTkFrame(
             self.blocco_principale, corner_radius=14, fg_color=("#2b2d35", "#1f222a")
         )
@@ -472,7 +470,7 @@ class MiaFinanza(ctk.CTk):
         )
         self.feed_scrollable.pack(fill="both", expand=True, padx=10, pady=(0, 10))
 
-        # --- 4. GRAFICI ---
+       
         self.blocco_grafici = ctk.CTkFrame(
             self, height=360, corner_radius=14, fg_color=("#2b2d35", "#1f222a")
         )
@@ -492,7 +490,6 @@ class MiaFinanza(ctk.CTk):
         )
         self.lbl_live_badge.pack(side="right")
 
-        # Inizializzazione diretta di Figure Matplotlib (senza pyplot state machine per massime prestazioni)
         self.figura = Figure(figsize=(11.5, 3.5), dpi=100)
         self.figura.patch.set_facecolor("#1f222a")
         self.ax_mese = self.figura.add_subplot(121)
@@ -517,12 +514,10 @@ class MiaFinanza(ctk.CTk):
         self.lang = nuova_lang
         set_setting("language", nuova_lang)
 
-        # Aggiorna elenco categorie suggerite
         nuove_cat = CATEGORIE_SUGGERITE.get(self.lang, CATEGORIE_SUGGERITE["IT"])
         self.campo_cat.configure(values=nuove_cat)
         self.campo_cat.set(nuove_cat[0])
 
-        # Aggiorna etichette e testi dell'interfaccia
         self.lbl_anno_txt.configure(text=self.t("year_label"))
         self.btn_esporta_archivio.configure(text=self.t("export_btn"))
         self.lbl_titolo_saldo.configure(text=self.t("balance_card"))
@@ -640,7 +635,6 @@ class MiaFinanza(ctk.CTk):
             messagebox.showwarning("Warning", self.t("err_cat"))
             return
 
-        # Validazione robusta formato data YYYY-MM-DD
         try:
             dt_val = datetime.strptime(data, "%Y-%m-%d")
             if not (1900 <= dt_val.year <= 2100):
@@ -681,7 +675,6 @@ class MiaFinanza(ctk.CTk):
                 tutti_gli_anni.append(a)
         tutti_gli_anni.append(self.t("all_years"))
 
-        # Aggiorna il dropdown anni solo se la lista è effettivamente cambiata
         if tutti_gli_anni != self._last_years_list:
             self._last_years_list = tutti_gli_anni
             self.scelta_anno.configure(values=tutti_gli_anni)
@@ -699,7 +692,7 @@ class MiaFinanza(ctk.CTk):
             self.dati_transazioni,
             lang=self.lang,
         )
-        # draw_idle() aggiorna la vista grafica senza bloccare il thread UI principale
+    
         self.canvas_grafici.draw_idle()
 
     def mostra_altri(self) -> None:
@@ -715,12 +708,12 @@ class MiaFinanza(ctk.CTk):
         else:
             dati_filtrati = [r for r in self.dati_transazioni if r[2] == "uscita"]
 
-        # Rimuove temporaneamente il pulsante 'mostra altri' per preservare l'ordine corretto in basso
+     
         if self._btn_mostra_altri is not None and self._btn_mostra_altri.winfo_ismapped():
             self._btn_mostra_altri.pack_forget()
 
         if not dati_filtrati:
-            # Nasconde le card nel pool
+          
             for item in self._card_pool:
                 if item["packed"]:
                     item["frame"].pack_forget()
@@ -741,7 +734,7 @@ class MiaFinanza(ctk.CTk):
                 self._empty_frame.pack(pady=35)
             return
 
-        # Nasconde lo stato vuoto se presente
+    
         if self._empty_frame is not None and self._empty_frame.winfo_ismapped():
             self._empty_frame.pack_forget()
 
@@ -758,7 +751,7 @@ class MiaFinanza(ctk.CTk):
             testo_importo = f"{segno} € {float(amount):,.2f}"
 
             if i < len(self._card_pool):
-                # Riutilizzo istantaneo del widget esistente
+             
                 item = self._card_pool[i]
                 item["badge"].configure(text=icona)
                 item["lbl_cat"].configure(text=categoria)
@@ -770,7 +763,7 @@ class MiaFinanza(ctk.CTk):
                     item["frame"].pack(fill="x", pady=3, padx=4)
                     item["packed"] = True
             else:
-                # Creazione nuovo widget nel pool solo se strettamente necessario
+                
                 card = ctk.CTkFrame(
                     self.feed_scrollable,
                     fg_color=("#374151", "#262932"),
@@ -841,14 +834,14 @@ class MiaFinanza(ctk.CTk):
                     "packed": True,
                 })
 
-        # Nasconde eventuali card eccedenti nel pool
+      
         for j in range(len(da_mostrare), len(self._card_pool)):
             item = self._card_pool[j]
             if item["packed"]:
                 item["frame"].pack_forget()
                 item["packed"] = False
 
-        # Ripristina o nasconde il pulsante 'carica altri'
+       
         if totale_filtrati > self.limite_visibili:
             rimanenti = totale_filtrati - self.limite_visibili
             if self._btn_mostra_altri is None:
