@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 from typing import Optional, Tuple
 
-# Garantisce una directory di cache valida per Matplotlib su ogni OS
+
 if "MPLCONFIGDIR" not in os.environ:
     _temp_mpl = os.path.join(tempfile.gettempdir(), "matplotlib_financetracker")
     try:
@@ -33,7 +33,7 @@ def carica_dataframe(anno: Optional[str] = None, righe: Optional[list] = None) -
         righe,
         columns=["id", "date", "type", "amount", "category", "description"],
     )
-    # Parsing ISO rapido e sicuro con errors='coerce' per evitare crash su date anomale
+    
     df["date"] = pd.to_datetime(df["date"], format="%Y-%m-%d", errors="coerce")
     df = df.dropna(subset=["date"])
     if df.empty:
@@ -56,7 +56,7 @@ def elabora_statistiche(
     df["entrata_val"] = np.where(is_entrata, df["amount"], 0.0)
     df["uscita_val"] = np.where(~is_entrata, df["amount"], 0.0)
 
-    # 1. Statistiche mensili
+   
     df["anno_mese"] = df["date"].dt.to_period("M")
     dati_mese = (
         df.groupby("anno_mese", observed=False)
@@ -70,7 +70,7 @@ def elabora_statistiche(
     dati_mese["saldo_totale"] = dati_mese["totale_netto"].cumsum()
     dati_mese["etichetta_mese"] = dati_mese["anno_mese"].astype(str)
 
-    # 2. Statistiche giornaliere (andamento progressivo)
+   
     dati_giorno = (
         df.groupby("date", as_index=False, sort=True)["valore_netto"]
         .sum()
@@ -101,7 +101,7 @@ def disegna_grafici_in_tempo_reale(
     ax_mese.set_facecolor(colore_bg)
     ax_giorno.set_facecolor(colore_bg)
 
-    # Traduzioni testi grafici
+  
     txt_no_data = "Nessun dato registrato" if lang == "IT" else "No transactions recorded"
     lbl_income = "Entrate" if lang == "IT" else "Income"
     lbl_expenses = "Uscite" if lang == "IT" else "Expenses"
@@ -133,7 +133,7 @@ def disegna_grafici_in_tempo_reale(
         figura.tight_layout(pad=2.2)
         return
 
-    # 1. GRAFICO MENSILE
+    
     if len(dati_mese) > 12:
         dati_mese_view = dati_mese.tail(12).reset_index(drop=True)
         titolo_mese = titolo_m12
@@ -180,7 +180,7 @@ def disegna_grafici_in_tempo_reale(
     ax_mese.legend(facecolor="#262932", edgecolor="none", labelcolor="white", fontsize=9, loc="upper left")
     ax_mese.grid(True, color="#2b2d35", linestyle="--", alpha=0.6)
 
-    # 2. GRAFICO GIORNALIERO
+    
     n_punti = len(dati_giorno)
     x_indices_giorno = np.arange(n_punti)
     mostra_punti = n_punti <= 25
@@ -197,7 +197,7 @@ def disegna_grafici_in_tempo_reale(
     ax_giorno.axhline(0, color="#4b5563", linestyle=":", linewidth=1.2)
     ax_giorno.xaxis.set_major_locator(MaxNLocator(nbins=6, integer=True))
 
-    # Formattazione data O(1) con tuple precalcolata per eliminare l'overhead di Pandas iloc
+  
     etichette_rapide = tuple(dati_giorno["etichetta_giorno"])
 
     def formatta_data_scalabile(val, _):
