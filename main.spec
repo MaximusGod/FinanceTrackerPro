@@ -12,7 +12,7 @@ for icon_file in ['icon.ico', 'icon.png', 'icon.icns', 'icon.svg']:
 binaries = []
 hiddenimports = ['PIL._tkinter_finder']
 
-# Raccoglie moduli e risorse per CustomTkinter e Matplotlib
+
 tmp_ret = collect_all('customtkinter')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
