@@ -18,7 +18,7 @@ def get_data_dir() -> Path:
     """
     if getattr(sys, "frozen", False):
         exe_path = Path(sys.executable).resolve()
-        # Rileva se gira dentro un bundle macOS .app
+      
         if sys.platform == "darwin" and ".app/Contents/MacOS" in str(exe_path):
             app_dir = Path.home() / "Library" / "Application Support" / "FinanceTracker"
             app_dir.mkdir(parents=True, exist_ok=True)
@@ -31,7 +31,7 @@ BASE_DIR: Path = get_data_dir()
 DB_NAME: Path = BASE_DIR / "finance.db"
 ARCHIVI_DIR: Path = BASE_DIR / "archivi"
 
-# Connessione persistente riutilizzabile per eliminare l'overhead di apertura/chiusura
+
 _conn: Optional[sqlite3.Connection] = None
 
 
@@ -44,12 +44,12 @@ def get_connection() -> sqlite3.Connection:
             timeout=10.0,
             check_same_thread=False,
         )
-        # PRAGMA ad alte prestazioni
+      
         _conn.execute("PRAGMA journal_mode = WAL;")
         _conn.execute("PRAGMA synchronous = NORMAL;")
-        _conn.execute("PRAGMA cache_size = -64000;")  # 64 MB di cache
+        _conn.execute("PRAGMA cache_size = -64000;")  
         _conn.execute("PRAGMA temp_store = MEMORY;")
-        _conn.execute("PRAGMA mmap_size = 268435456;")  # 256 MB memory-mapped I/O
+        _conn.execute("PRAGMA mmap_size = 268435456;")  
     return _conn
 
 
@@ -64,7 +64,7 @@ def close_db() -> None:
         _conn = None
 
 
-# Registra la chiusura automatica all'uscita dal processo
+
 atexit.register(close_db)
 
 
@@ -88,7 +88,7 @@ def init_db() -> None:
         conn.execute(
             "CREATE INDEX IF NOT EXISTS idx_transactions_date_type ON transactions(date, type);"
         )
-        # Tabella impostazioni
+    
         conn.execute("""
             CREATE TABLE IF NOT EXISTS settings (
                 key TEXT PRIMARY KEY,
